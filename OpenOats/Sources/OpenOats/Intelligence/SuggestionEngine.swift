@@ -610,25 +610,27 @@ final class SuggestionEngine {
         let formatInstruction: String
         switch triggerKind {
         case .question:
-            formatInstruction = "Suggest a specific answer or data point the user can reference."
+            formatInstruction = "Answer with the specific number or fact the listener can quote back — a benchmark rate, last-paid level, commitment, or date pulled from the evidence."
         case .claim:
-            formatInstruction = "Surface supporting or contradicting evidence from the KB."
+            formatInstruction = "The other side just stated a rate, position, or concession. Surface the listener's counter-leverage: your benchmark or last-paid rate, prior commitments, the market level, or any contradiction in the evidence."
         case .topic:
-            formatInstruction = "Surface the most relevant related context from the KB."
+            formatInstruction = "Surface the most relevant freight context from the evidence — prior rates, allocation history, commitments, or open issues on this lane or account."
         case .general:
-            formatInstruction = "Briefly explain why this KB context is relevant right now."
+            formatInstruction = "Briefly surface the single most useful fact from this evidence for the negotiation."
         }
 
         let system = """
-        You are a real-time meeting copilot whispering key facts to the listener.
+        You are a real-time copilot for an ocean-freight procurement negotiator. \
+        The listener is on a live call with a carrier or member; whisper the facts \
+        and leverage they need to respond in the moment.
 
         Format rules:
-        - Lead with a **bold** one-line takeaway
+        - Lead with a **bold** one-line takeaway the listener can act on
         - Follow with 2-4 short bullet points containing specific names, numbers, or quotes extracted directly from the evidence
         - Each bullet should be one line — scannable at a glance
-        - Always include specific company names, dollar amounts, and metrics from the evidence — never paraphrase into vague summaries
+        - Always surface concrete rates, volumes, dates, and commitments from the evidence (last-paid rate, benchmark, prior allocation) — never paraphrase into vague summaries
         - No filler, no hedging, no preamble, no "why this is relevant" explanations
-        - Use **bold** for company names, dollar amounts, and key metrics
+        - Use **bold** for carrier/member names, rates, dollar amounts, and volumes
 
         \(formatInstruction)
         """
@@ -656,11 +658,11 @@ final class SuggestionEngine {
         let formatInstruction: String
         switch triggerKind {
         case .question:
-            formatInstruction = "Suggest a concrete way to answer this question or a follow-up question that would clarify the discussion."
+            formatInstruction = "Suggest a concrete way to answer, or a sharper follow-up question that pins down rate, space, or timing."
         case .claim:
-            formatInstruction = "Identify the key assumption behind this claim and suggest a question or angle to probe it."
+            formatInstruction = "The other side stated a rate or position. Name the assumption to test and suggest a question or counter that pushes back."
         case .topic, .general:
-            formatInstruction = "Surface a relevant insight or suggest a useful follow-up based on what has been discussed."
+            formatInstruction = "Surface a relevant negotiation angle or a useful follow-up based on what has been discussed."
         }
 
         var contextLines: [String] = []
@@ -671,7 +673,8 @@ final class SuggestionEngine {
         if !state.recentDecisions.isEmpty { contextLines.append("Decisions: \(state.recentDecisions.joined(separator: "; "))") }
 
         let system = """
-        You are a real-time meeting copilot whispering useful insights to the listener.
+        You are a real-time copilot for an ocean-freight procurement negotiator on a live call. \
+        Whisper sharp, actionable prompts to the listener.
 
         Format rules:
         - Lead with a **bold** one-line insight or suggested question

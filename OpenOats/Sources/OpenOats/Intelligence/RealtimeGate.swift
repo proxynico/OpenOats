@@ -70,7 +70,7 @@ struct RealtimeGate: Sendable {
 
         // Question markers
         if lower.contains("?") { return .question }
-        let questionStarts = ["what ", "how ", "why ", "should ", "could ", "would ", "do you think", "which "]
+        let questionStarts = ["what ", "how ", "why ", "should ", "could ", "would ", "do you think", "which ", "can you ", "when "]
         for start in questionStarts {
             if lower.hasPrefix(start) { return .question }
         }
@@ -81,14 +81,33 @@ struct RealtimeGate: Sendable {
             if lower.contains(phrase) { return .question }
         }
 
+        // Freight quote / commitment markers — the other side stating a rate,
+        // an allocation, or a concession is a claim to check against your
+        // numbers. Listed before generic claim markers so they win, and so
+        // they surface even in transcript-only mode (where .topic never does).
+        let freightClaimPhrases = [
+            "per container", "per box", "per teu", "per feu", "all-in", "all in",
+            "flat rate", "the rate is", "rate will be", "best i can do", "best we can do",
+            "we can offer", "we can do", "we can't guarantee", "no space", "no allocation",
+            "rolled", "roll over", "rollover", "blank sailing", "free time", "demurrage",
+            "detention", "minimum commitment", "subject to space", "general rate increase"
+        ]
+        for phrase in freightClaimPhrases {
+            if lower.contains(phrase) { return .claim }
+        }
+
         // Claim markers
         let claimPhrases = ["i think", "i assume", "i believe", "probably", "but ", "however", "i disagree", "that's not", "the problem is"]
         for phrase in claimPhrases {
             if lower.contains(phrase) { return .claim }
         }
 
-        // Topic markers
-        let topicPhrases = ["customer", "user", "pain point", "market", "distribution", "pricing", "mvp", "feature", "retention", "churn"]
+        // Freight topic markers
+        let topicPhrases = [
+            "rate", "allocation", "capacity", "space", "equipment", "container",
+            "transit", "schedule", "surcharge", "bunker", "baf", "gri", "peak season",
+            "contract", "spot", "volume", "lane", "carrier", "vessel", "booking", "shipment"
+        ]
         for phrase in topicPhrases {
             if lower.contains(phrase) { return .topic }
         }
