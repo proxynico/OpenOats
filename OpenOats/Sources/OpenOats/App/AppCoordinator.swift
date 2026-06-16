@@ -118,6 +118,7 @@ final class AppCoordinator {
 
     var transcriptionEngine: TranscriptionEngine?
     var liveTranscriptCleaner: LiveTranscriptCleaner?
+    var liveTranscriptTranslator: LiveTranscriptTranslator?
     var audioRecorder: AudioRecorder?
     var batchAudioTranscriber: BatchAudioTranscriber?
 

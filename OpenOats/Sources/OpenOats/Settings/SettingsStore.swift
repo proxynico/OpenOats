@@ -411,6 +411,28 @@ final class SettingsStore {
         }
     }
 
+    @ObservationIgnored nonisolated(unsafe) private var _enableLiveTranslation: Bool
+    var enableLiveTranslation: Bool {
+        get { access(keyPath: \.enableLiveTranslation); return _enableLiveTranslation }
+        set {
+            withMutation(keyPath: \.enableLiveTranslation) {
+                _enableLiveTranslation = newValue
+                defaults.set(newValue, forKey: "enableLiveTranslation")
+            }
+        }
+    }
+
+    @ObservationIgnored nonisolated(unsafe) private var _translationModel: String
+    var translationModel: String {
+        get { access(keyPath: \.translationModel); return _translationModel }
+        set {
+            withMutation(keyPath: \.translationModel) {
+                _translationModel = newValue
+                defaults.set(newValue, forKey: "translationModel")
+            }
+        }
+    }
+
     @ObservationIgnored nonisolated(unsafe) private var _realtimeModel: String
     var realtimeModel: String {
         get { access(keyPath: \.realtimeModel); return _realtimeModel }
@@ -1316,6 +1338,8 @@ final class SettingsStore {
             rawValue: defaults.string(forKey: "suggestionVerbosity") ?? ""
         ) ?? .quiet
         self._enableLiveTranscriptCleanup = defaults.bool(forKey: "enableLiveTranscriptCleanup")
+        self._enableLiveTranslation = defaults.bool(forKey: "enableLiveTranslation")
+        self._translationModel = defaults.string(forKey: "translationModel") ?? "qwen3.5:9b"
         self._realtimeModel = defaults.string(forKey: "realtimeModel") ?? "google/gemini-3.1-flash-lite-preview"
         self._realtimeOllamaModel = defaults.string(forKey: "realtimeOllamaModel") ?? ""
         if defaults.object(forKey: "suggestionPanelEnabled") == nil {

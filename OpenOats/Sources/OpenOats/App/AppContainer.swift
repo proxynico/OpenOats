@@ -168,6 +168,10 @@ final class AppContainer {
                 settings: settings,
                 transcriptStore: coordinator.transcriptStore
             ),
+            liveTranscriptTranslator: LiveTranscriptTranslator(
+                settings: settings,
+                transcriptStore: coordinator.transcriptStore
+            ),
             audioRecorder: AudioRecorder(outputDirectory: notesDirectory),
             batchAudioTranscriber: BatchAudioTranscriber()
         )
@@ -200,6 +204,7 @@ final class AppContainer {
         let services = makeRecordingServices(settings: settings, coordinator: coordinator)
         coordinator.transcriptionEngine = services.transcriptionEngine
         coordinator.liveTranscriptCleaner = services.liveTranscriptCleaner
+        coordinator.liveTranscriptTranslator = services.liveTranscriptTranslator
         coordinator.audioRecorder = services.audioRecorder
         coordinator.batchAudioTranscriber = services.batchAudioTranscriber
     }

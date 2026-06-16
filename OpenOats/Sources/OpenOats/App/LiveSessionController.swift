@@ -500,6 +500,12 @@ final class LiveSessionController {
             }
         }
 
+        if settings.enableLiveTranslation, let engine = coordinator.liveTranscriptTranslator {
+            Task {
+                await engine.translate(last)
+            }
+        }
+
         let sessionID = currentSessionID
 
         // Trigger the active realtime assistant from either speaker
@@ -696,6 +702,9 @@ final class LiveSessionController {
         // 1b. Drain pending cleanups
         if let settings, settings.enableLiveTranscriptCleanup {
             await coordinator.liveTranscriptCleaner?.drain(timeout: .seconds(5))
+        }
+        if let settings, settings.enableLiveTranslation {
+            await coordinator.liveTranscriptTranslator?.drain(timeout: .seconds(8))
         }
 
         // 2. Drain delayed JSONL writes

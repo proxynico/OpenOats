@@ -491,6 +491,12 @@ private struct TranscriptionSettingsTab: View {
                         .font(.system(size: 11))
                         .foregroundStyle(.secondary)
 
+                    Toggle("Translate foreign speech to English", isOn: $settings.enableLiveTranslation)
+                        .font(.system(size: 12))
+                    Text("Detects non-English/Spanish speech and shows an English translation in the transcript, using your local model (\(settings.translationModel)). Your own English and Spanish are left unchanged.")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+
                     VStack(alignment: .leading, spacing: 3) {
                         Text("Custom Keywords")
                             .font(.system(size: 11, weight: .medium))

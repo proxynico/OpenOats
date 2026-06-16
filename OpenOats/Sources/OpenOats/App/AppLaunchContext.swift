@@ -21,6 +21,7 @@ struct AppViewServices {
 struct AppRecordingServices {
     let transcriptionEngine: TranscriptionEngine
     let liveTranscriptCleaner: LiveTranscriptCleaner
+    let liveTranscriptTranslator: LiveTranscriptTranslator
     let audioRecorder: AudioRecorder
     let batchAudioTranscriber: BatchAudioTranscriber
 }

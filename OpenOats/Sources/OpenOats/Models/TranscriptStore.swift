@@ -86,6 +86,11 @@ final class TranscriptStore {
         utterances[index] = utterances[index].withCleanup(text: cleanedText, status: status)
     }
 
+    func updateTranslation(id: UUID, translatedText: String?, status: TextCleanupStatus) {
+        guard let index = utterances.firstIndex(where: { $0.id == id }) else { return }
+        utterances[index] = utterances[index].withTranslation(text: translatedText, status: status)
+    }
+
     func clear() {
         utterances.removeAll()
         volatileYouText = ""
