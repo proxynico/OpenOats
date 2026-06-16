@@ -449,9 +449,10 @@ final class LiveSessionController {
         }
     }
 
-    func loadKBCacheIfAvailable(settings: AppSettings) {
-        guard let url = settings.kbFolderURL, let kb = coordinator.knowledgeBase else { return }
-        _ = kb.loadCachedStateIfAvailable(folderURL: url)
+    @discardableResult
+    func loadKBCacheIfAvailable(settings: AppSettings) -> Bool {
+        guard let url = settings.kbFolderURL, let kb = coordinator.knowledgeBase else { return false }
+        return kb.loadCachedStateIfAvailable(folderURL: url)
     }
 
     // MARK: - External Commands
@@ -1460,8 +1461,10 @@ final class LiveSessionController {
             observedKBFolderPath = settings.kbFolderPath
             if settings.kbFolderPath.isEmpty {
                 coordinator.knowledgeBase?.clear()
-            } else {
-                loadKBCacheIfAvailable(settings: settings)
+            } else if !loadKBCacheIfAvailable(settings: settings) {
+                // Cold start with a configured KB folder but no usable cache:
+                // index now so suggestions work without re-picking the folder.
+                indexKBIfNeeded(settings: settings)
             }
         }
 
