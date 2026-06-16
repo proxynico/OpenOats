@@ -32,7 +32,7 @@ enum WhatsNewReleaseClient {
     }
 
     static func fetch(version: String) async throws -> WhatsNewRelease {
-        guard let url = URL(string: "https://api.github.com/repos/yazinsai/OpenOats/releases/tags/v\(version)") else {
+        guard let url = URL(string: "https://api.github.com/repos/proxynico/OpenOats/releases/tags/v\(version)") else {
             throw ClientError.invalidURL
         }
 

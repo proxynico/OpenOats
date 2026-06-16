@@ -16,7 +16,7 @@ final class WhatsNewControllerTests: XCTestCase {
             version: version,
             title: "OpenOats \(version)",
             body: "## Fixed\n- Notes render correctly.",
-            htmlURL: URL(string: "https://github.com/yazinsai/OpenOats/releases/tag/v\(version)")!
+            htmlURL: URL(string: "https://github.com/proxynico/OpenOats/releases/tag/v\(version)")!
         )
     }
 

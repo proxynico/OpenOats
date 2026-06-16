@@ -14,10 +14,6 @@ let package = Package(
             name: "OpenOats",
             targets: ["OpenOatsAppExecutable"]
         ),
-        .executable(
-            name: "Benchmark",
-            targets: ["Benchmark"]
-        ),
     ],
     dependencies: [
         // FluidAudio has made source-breaking API changes in patch releases.
@@ -43,13 +39,6 @@ let package = Package(
             name: "OpenOatsAppExecutable",
             dependencies: ["OpenOatsKit"],
             path: "Sources/OpenOatsApp"
-        ),
-        .executableTarget(
-            name: "Benchmark",
-            dependencies: [
-                .product(name: "WhisperKit", package: "WhisperKit"),
-            ],
-            path: "Sources/Benchmark"
         ),
         .testTarget(
             name: "OpenOatsTests",

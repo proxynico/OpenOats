@@ -123,7 +123,7 @@ public struct OpenOatsRootApp: App {
                 .disabled(coordinator.isRecording || isBatchEngineBusy)
 
                 Button("GitHub Repository...") {
-                    if let url = URL(string: "https://github.com/yazinsai/OpenOats") {
+                    if let url = URL(string: "https://github.com/proxynico/OpenOats") {
                         NSWorkspace.shared.open(url)
                     }
                 }
